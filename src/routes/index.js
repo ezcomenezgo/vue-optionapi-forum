@@ -1,9 +1,9 @@
 import { createWebHistory, createRouter } from "vue-router";
 import sourceData from "@/data.json";
 
-import PageHome from "@/components/PageHome.vue";
-import PageThreadShow from "@/components/PageThreadShow.vue";
-import PageNotFound from "@/components/PageNotFound.vue";
+import PageHome from "@/pages/PageHome.vue";
+import PageThreadShow from "@/pages/PageThreadShow.vue";
+import PageNotFound from "@/pages/PageNotFound.vue";
 
 const routes = [
   { path: "/", name: "Home", component: PageHome },
