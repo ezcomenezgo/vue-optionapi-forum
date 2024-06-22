@@ -4,16 +4,14 @@
     <h2>{{ thread.title }}</h2>
     <post-list :posts="threadPosts" />
     <div class="divider"></div>
-    <form @submit.prevent="addPost">
-      <textarea v-model="newPostText" name="" id=""></textarea>
-      <button>submit</button>
-    </form>
+    <post-editor @save-post="addPost" />
   </div>
 </template>
 
 <script>
 import sourceData from "@/data.json";
 import PostList from "@/components/PostList.vue";
+import PostEditor from "@/components/PostEditor.vue";
 
 export default {
   props: {
@@ -24,12 +22,12 @@ export default {
   },
   components: {
     PostList,
+    PostEditor,
   },
   data() {
     return {
       threads: sourceData.threads,
       posts: sourceData.posts,
-      newPostText: "",
     };
   },
   computed: {
@@ -41,19 +39,13 @@ export default {
     },
   },
   methods: {
-    addPost() {
-      const postId = "abcd" + Math.floor(Date.now() / 1000);
+    addPost(eventData) {
       const post = {
-        id: postId,
-        text: this.newPostText,
-        publishedAt: Math.floor(Date.now() / 1000),
+        ...eventData.post,
         threadId: this.id,
-        userId: "L664y3qZSubDbT1R6npC0EEybJ73",
       };
-      // sourceData.posts.push(post);
       this.posts.push(post);
       this.thread.posts.push(post.id);
-      this.newPostText = "";
     },
   },
 };
