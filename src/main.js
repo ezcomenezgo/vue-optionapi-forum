@@ -1,19 +1,8 @@
 import { createApp } from "vue";
 import App from "./App.vue";
+import "@/style/output.css";
+import router from "@/routes/index";
 
-import { createMemoryHistory, createRouter } from "vue-router";
-
-import PageHome from "@/components/PageHome.vue";
-// import AboutView from './AboutView.vue'
-
-const routes = [
-  { path: "/", component: PageHome },
-  // { path: '/about', component: AboutView },
-];
-
-const router = createRouter({
-  history: createMemoryHistory(),
-  routes,
-});
-
-createApp(App).use(router).mount("#app");
+const app = createApp(App);
+app.use(router);
+app.mount("#app");
