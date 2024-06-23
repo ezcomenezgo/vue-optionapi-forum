@@ -9,8 +9,30 @@ const store = createStore({
     };
   },
   getters: {
-    authUser: (state) =>
-      state.sourceData.users.find((user) => user.id === state.authId),
+    authUser: (state) => {
+      const user = state.sourceData.users.find(
+        (user) => user.id === state.authId
+      );
+      if (!user) return null;
+
+      return {
+        ...user,
+        // authUser.posts
+        get posts() {
+          return state.sourceData.posts.filter((p) => p.userId === user.id);
+        },
+        // authUser.postsCount
+        get postsCount() {
+          return this.posts.length;
+        },
+        get threads() {
+          return state.sourceData.threads.filter((t) => t.userId === user.id);
+        },
+        get threadsCount() {
+          return this.threads.length;
+        },
+      };
+    },
   },
   mutations: {
     setPost(state, { post }) {
