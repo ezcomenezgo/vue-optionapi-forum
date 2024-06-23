@@ -9,7 +9,6 @@
 </template>
 
 <script>
-import sourceData from "@/data.json";
 import PostList from "@/components/PostList.vue";
 import PostEditor from "@/components/PostEditor.vue";
 
@@ -24,13 +23,13 @@ export default {
     PostList,
     PostEditor,
   },
-  data() {
-    return {
-      threads: sourceData.threads,
-      posts: sourceData.posts,
-    };
-  },
   computed: {
+    threads() {
+      return this.$store.state.sourceData.threads;
+    },
+    posts() {
+      return this.$store.state.sourceData.posts;
+    },
     thread() {
       return this.threads.find((t) => t.id === this.id); // also available as this.$route.params.id
     },

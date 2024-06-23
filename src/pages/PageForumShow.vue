@@ -7,7 +7,6 @@
 </template>
 
 <script>
-import sourceData from "@/data.json";
 import ThreadList from "@/components/ThreadList.vue";
 
 export default {
@@ -20,11 +19,15 @@ export default {
   components: {
     ThreadList,
   },
-  data() {
-    return {
-      forum: sourceData.forums.find((f) => f.id === this.id),
-      threads: sourceData.threads.filter((t) => t.forumId === this.id),
-    };
+  computed: {
+    forum() {
+      return this.$store.state.sourceData.forums.find((f) => f.id === this.id);
+    },
+    threads() {
+      return this.$store.state.sourceData.threads.filter(
+        (t) => t.forumId === this.id
+      );
+    },
   },
 };
 </script>

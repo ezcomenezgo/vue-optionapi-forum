@@ -7,7 +7,6 @@
 </template>
 
 <script>
-import sourceData from "@/data.json";
 import ForumList from "@/components/ForumList.vue";
 
 export default {
@@ -20,11 +19,17 @@ export default {
   components: {
     ForumList,
   },
-  data() {
-    return {
-      category: sourceData.categories.find((c) => c.id === this.id),
-      forums: sourceData.forums.filter((f) => f.categoryId === this.id),
-    };
+  computed: {
+    category() {
+      return this.$store.state.sourceData.categories.find(
+        (c) => c.id === this.id
+      );
+    },
+    forums() {
+      return this.$store.state.sourceData.forums.filter(
+        (f) => f.categoryId === this.id
+      );
+    },
   },
 };
 </script>

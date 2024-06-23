@@ -1,11 +1,11 @@
 import { createWebHistory, createRouter } from "vue-router";
-import sourceData from "@/data.json";
 
 import PageHome from "@/pages/PageHome.vue";
 import PageCategoryShow from "@/pages/PageCategoryShow.vue";
 import PageForumShow from "@/pages/PageForumShow.vue";
 import PageThreadShow from "@/pages/PageThreadShow.vue";
 import PageNotFound from "@/pages/PageNotFound.vue";
+import store from "@/store";
 
 const routes = [
   {
@@ -32,7 +32,9 @@ const routes = [
     props: true,
     beforeEnter: (to, from, next) => {
       // ...
-      const threadExist = sourceData.threads.find((t) => t.id === to.params.id);
+      const threadExist = store.state.sourceData.threads.find(
+        (t) => t.id === to.params.id
+      );
       if (threadExist) return next();
       else
         next({

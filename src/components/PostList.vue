@@ -22,8 +22,6 @@
 </template>
 
 <script>
-import sourceData from "@/data.json";
-
 export default {
   props: {
     posts: {
@@ -31,14 +29,14 @@ export default {
       required: true,
     },
   },
-  data() {
-    return {
-      users: sourceData.users,
-    };
-  },
   methods: {
     userById(userId) {
       return this.users.find((u) => u.id === userId);
+    },
+  },
+  computed: {
+    users() {
+      return this.$store.state.sourceData.users;
     },
   },
 };

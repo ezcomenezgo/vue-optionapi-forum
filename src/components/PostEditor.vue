@@ -8,13 +8,9 @@
 </template>
 
 <script>
-import sourceData from "@/data.json";
-
 export default {
   data() {
     return {
-      threads: sourceData.threads,
-      posts: sourceData.posts,
       text: "",
     };
   },
@@ -30,6 +26,14 @@ export default {
       };
       this.$emit("save-post", { post });
       this.text = "";
+    },
+  },
+  computed: {
+    threads() {
+      return this.$store.state.sourceData.threads;
+    },
+    posts() {
+      return this.$store.state.sourceData.posts;
     },
   },
 };
