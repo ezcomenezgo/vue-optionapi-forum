@@ -16,9 +16,7 @@ export default {
   },
   methods: {
     save() {
-      const postId = "abcd" + Math.floor(Date.now() / 1000);
       const post = {
-        id: postId,
         text: this.text,
         publishedAt: Math.floor(Date.now() / 1000),
         threadId: this.id,
