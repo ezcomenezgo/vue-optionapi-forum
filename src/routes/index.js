@@ -1,6 +1,7 @@
 import { createWebHistory, createRouter } from "vue-router";
 
 import PageHome from "@/pages/PageHome.vue";
+import PageProfile from "@/pages/PageProfile.vue";
 import PageCategoryShow from "@/pages/PageCategoryShow.vue";
 import PageForumShow from "@/pages/PageForumShow.vue";
 import PageThreadShow from "@/pages/PageThreadShow.vue";
@@ -12,6 +13,11 @@ const routes = [
     path: "/",
     name: "Home",
     component: PageHome,
+  },
+  {
+    path: "/me",
+    name: "Profile",
+    component: PageProfile,
   },
   {
     path: "/category/:id",

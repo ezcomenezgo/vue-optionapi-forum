@@ -20,10 +20,10 @@
             {{ authUser.name }}
           </li>
           <li>
-            <a class="justify-between">
+            <router-link class="justify-between" :to="{ name: 'Profile' }">
               Profile
               <span class="badge">New</span>
-            </a>
+            </router-link>
           </li>
           <li><a>Settings</a></li>
           <li><a>Logout</a></li>
