@@ -13,8 +13,8 @@
       </p>
       <p>{{ post.text }}</p>
       <p>post count: {{ userById(post.userId).postsCount }}</p>
-      <p :title="showTimeWhenHover(post.publishedAt)">
-        publish at: {{ makeReadableTime(post.publishedAt) }}
+      <p>
+        <AppDate :timestamp="post.publishedAt" />
       </p>
     </div>
     <div class="divider divider-accent"></div>
@@ -23,11 +23,7 @@
 
 <script>
 import sourceData from "@/data.json";
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
-import localizedFormat from "dayjs/plugin/localizedFormat";
-dayjs.extend(relativeTime);
-dayjs.extend(localizedFormat);
+import AppDate from "@/components/AppDate.vue";
 
 export default {
   props: {
@@ -35,6 +31,9 @@ export default {
       type: Array,
       required: true,
     },
+  },
+  components: {
+    AppDate,
   },
   data() {
     return {
@@ -44,12 +43,6 @@ export default {
   methods: {
     userById(userId) {
       return this.users.find((u) => u.id === userId);
-    },
-    makeReadableTime(timestamp) {
-      return dayjs.unix(timestamp).fromNow();
-    },
-    showTimeWhenHover(timestamp) {
-      return dayjs.unix(timestamp).format("llll");
     },
   },
 };

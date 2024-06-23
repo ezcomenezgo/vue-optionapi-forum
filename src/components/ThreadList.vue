@@ -20,7 +20,8 @@
         {{ thread.title }}
       </router-link>
       <p>
-        By {{ userById(thread.userId).name }}, post at {{ thread.publishedAt }}
+        By {{ userById(thread.userId).name }}, post at
+        <AppDate :timestamp="thread.publishedAt" />
       </p>
       <div>{{ thread.posts.length }} replies</div>
       <div class="w-10 rounded-full">
@@ -52,6 +53,7 @@
 
 <script>
 import sourceData from "@/data.json";
+import AppDate from "@/components/AppDate.vue";
 
 export default {
   props: {
@@ -59,6 +61,9 @@ export default {
       type: Array,
       required: true,
     },
+  },
+  components: {
+    AppDate,
   },
   data() {
     return {
