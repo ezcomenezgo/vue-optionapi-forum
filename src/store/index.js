@@ -5,7 +5,12 @@ const store = createStore({
   state() {
     return {
       sourceData,
+      authId: "jUjmgCurRRdzayqbRMO7aTG9X1G2",
     };
+  },
+  getters: {
+    authUser: (state) =>
+      state.sourceData.users.find((user) => user.id === state.authId),
   },
   mutations: {
     setPost(state, { post }) {
