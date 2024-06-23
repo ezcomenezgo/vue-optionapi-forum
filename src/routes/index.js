@@ -2,8 +2,9 @@ import { createWebHistory, createRouter } from "vue-router";
 import sourceData from "@/data.json";
 
 import PageHome from "@/pages/PageHome.vue";
-import PageThreadShow from "@/pages/PageThreadShow.vue";
+import PageCategoryShow from "@/pages/PageCategoryShow.vue";
 import PageForumShow from "@/pages/PageForumShow.vue";
+import PageThreadShow from "@/pages/PageThreadShow.vue";
 import PageNotFound from "@/pages/PageNotFound.vue";
 
 const routes = [
@@ -11,6 +12,18 @@ const routes = [
     path: "/",
     name: "Home",
     component: PageHome,
+  },
+  {
+    path: "/category/:id",
+    name: "CategoryShow",
+    component: PageCategoryShow,
+    props: true,
+  },
+  {
+    path: "/forum/:id",
+    name: "ForumShow",
+    component: PageForumShow,
+    props: true,
   },
   {
     path: "/thread/:id",
@@ -31,12 +44,6 @@ const routes = [
           hash: to.hash,
         });
     },
-  },
-  {
-    path: "/forum/:id",
-    name: "ForumShow",
-    component: PageForumShow,
-    props: true,
   },
   // this is a soft 404, because it just deal with wrong url on client side
   {
