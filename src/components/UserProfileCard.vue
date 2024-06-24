@@ -10,6 +10,9 @@
       <p>{{ user.postsCount }} posts</p>
       <p>{{ user.threadsCount }} threads</p>
     </div>
+    <button>
+      <router-link :to="{ name: 'ProfileEdit' }">Edit Profile</router-link>
+    </button>
   </div>
 </template>
 

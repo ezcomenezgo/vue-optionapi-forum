@@ -38,6 +38,12 @@ const store = createStore({
     setPost(state, { post }) {
       state.sourceData.posts.push(post);
     },
+    setUser(state, { user, userId }) {
+      const userIndex = state.sourceData.users.findIndex(
+        (user) => user.id === userId
+      );
+      state.sourceData.users[userIndex] = user;
+    },
     appendPostToThread(state, { postId, threadId }) {
       const thread = state.sourceData.threads.find(
         (thread) => thread.id === threadId
@@ -53,6 +59,9 @@ const store = createStore({
         postId: post.id,
         threadId: post.threadId,
       }); // append post to thread
+    },
+    updateUser(context, user) {
+      context.commit("setUser", { user, userId: user.id });
     },
   },
 });

@@ -20,6 +20,12 @@ const routes = [
     component: PageProfile,
   },
   {
+    path: "/me/edit",
+    name: "ProfileEdit",
+    component: PageProfile,
+    props: { edit: true },
+  },
+  {
     path: "/category/:id",
     name: "CategoryShow",
     component: PageCategoryShow,
