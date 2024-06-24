@@ -20,7 +20,6 @@ export default {
         text: this.text,
         publishedAt: Math.floor(Date.now() / 1000),
         threadId: this.id,
-        userId: "L664y3qZSubDbT1R6npC0EEybJ73",
       };
       this.$emit("save-post", { post });
       this.text = "";

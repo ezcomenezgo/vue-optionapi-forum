@@ -54,14 +54,17 @@ const store = createStore({
   actions: {
     createPost(context, post) {
       post.id = "abcd" + Math.floor(Date.now() / 1000);
+      post.userId = context.state.authId;
+      post.publishedAt = Math.floor(Date.now() / 1000);
       context.commit("setPost", { post }); // set the post
       context.commit("appendPostToThread", {
         postId: post.id,
         threadId: post.threadId,
       }); // append post to thread
     },
-    updateUser(context, user) {
-      context.commit("setUser", { user, userId: user.id });
+    // can use object destruction to not write "context"
+    updateUser({ commit }, user) {
+      commit("setUser", { user, userId: user.id });
     },
   },
 });

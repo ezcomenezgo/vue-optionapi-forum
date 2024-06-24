@@ -5,6 +5,7 @@
   <div v-else>
     <UserProfileCardEditor :user="user" />
   </div>
+  <p>{{ user.username }} recent activity</p>
   <PostList :posts="user.posts" />
 </template>
 
