@@ -1,37 +1,30 @@
 <template>
   <div>
     <p>Create a new thread in {{ forum.name }}</p>
-    <form @submit.prevent="save">
-      <label for="title">Title: </label>
-      <input v-model="title" type="text" name="title" id="" />
-      <textarea v-model="text" name="" id=""></textarea>
-      <button>Submit</button>
-      <button @click="cancel">Cancel</button>
-    </form>
+    <ThreadEditor @save="save" @cancel="cancel" />
   </div>
 </template>
 
 <script>
+import ThreadEditor from "@/components/ThreadEditor.vue";
+
 export default {
+  components: {
+    ThreadEditor,
+  },
   props: {
     forumId: {
       type: String,
       required: true,
     },
   },
-  data() {
-    return {
-      title: "",
-      text: "",
-    };
-  },
   methods: {
-    async save() {
+    async save({ title, text }) {
       console.log("save");
       const thread = await this.$store.dispatch("createThread", {
         forumId: this.forum.id,
-        title: this.title,
-        text: this.text,
+        title,
+        text,
       });
       this.$router.push({ name: "ThreadShow", params: { id: thread.id } });
     },
