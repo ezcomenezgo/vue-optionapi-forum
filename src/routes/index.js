@@ -5,6 +5,8 @@ import PageProfile from "@/pages/PageProfile.vue";
 import PageCategoryShow from "@/pages/PageCategoryShow.vue";
 import PageForumShow from "@/pages/PageForumShow.vue";
 import PageThreadShow from "@/pages/PageThreadShow.vue";
+import PageThreadCreate from "@/pages/PageThreadCreate.vue";
+import PageThreadEdit from "@/pages/PageThreadEdit.vue";
 import PageNotFound from "@/pages/PageNotFound.vue";
 import store from "@/store";
 
@@ -58,6 +60,18 @@ const routes = [
           hash: to.hash,
         });
     },
+  },
+  {
+    path: "/forum/:forumId/thread/create",
+    name: "ThreadCreate",
+    component: PageThreadCreate,
+    props: true,
+  },
+  {
+    path: "/thread/:id/edit",
+    name: "ThreadEdit",
+    component: PageThreadEdit,
+    props: true,
   },
   // this is a soft 404, because it just deal with wrong url on client side
   {

@@ -2,6 +2,9 @@
   <div>Hello Thread</div>
   <div class="flex flex-col w-full border-opacity-50">
     <h2>{{ thread.title }}</h2>
+    <router-link :to="{ name: 'ThreadEdit', params: { id } }"
+      >Edit thread</router-link
+    >
     <post-list :posts="threadPosts" />
     <div class="divider"></div>
     <post-editor @save-post="addPost" />
