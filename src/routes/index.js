@@ -9,6 +9,7 @@ import PageThreadCreate from "@/pages/PageThreadCreate.vue";
 import PageThreadEdit from "@/pages/PageThreadEdit.vue";
 import PageNotFound from "@/pages/PageNotFound.vue";
 import store from "@/store";
+import { findById } from "@/helpers/index";
 
 const routes = [
   {
@@ -46,8 +47,9 @@ const routes = [
     props: true,
     beforeEnter: (to, from, next) => {
       // ...
-      const threadExist = store.state.sourceData.threads.find(
-        (t) => t.id === to.params.id
+      const threadExist = findById(
+        store.state.sourceData.threads,
+        to.params.id
       );
       if (threadExist) return next();
       else

@@ -7,6 +7,7 @@
 
 <script>
 import ThreadEditor from "@/components/ThreadEditor.vue";
+import { findById } from "@/helpers/index";
 
 export default {
   components: {
@@ -34,9 +35,7 @@ export default {
   },
   computed: {
     forum() {
-      return this.$store.state.sourceData.forums.find(
-        (f) => f.id === this.forumId
-      );
+      return findById(this.$store.state.sourceData.forums, this.forumId);
     },
   },
 };

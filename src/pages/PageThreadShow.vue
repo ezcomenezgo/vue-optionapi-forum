@@ -14,6 +14,7 @@
 <script>
 import PostList from "@/components/PostList.vue";
 import PostEditor from "@/components/PostEditor.vue";
+import { findById } from "@/helpers/index";
 
 export default {
   props: {
@@ -34,7 +35,7 @@ export default {
       return this.$store.state.sourceData.posts;
     },
     thread() {
-      return this.threads.find((t) => t.id === this.id); // also available as this.$route.params.id
+      return findById(this.threads, this.id); // also available as this.$route.params.id
     },
     threadPosts() {
       return this.posts.filter((p) => p.threadId === this.id);

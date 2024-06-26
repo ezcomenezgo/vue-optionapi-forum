@@ -12,6 +12,7 @@
 
 <script>
 import ThreadEditor from "@/components/ThreadEditor.vue";
+import { findById } from "@/helpers/index";
 
 export default {
   components: {
@@ -38,12 +39,11 @@ export default {
   },
   computed: {
     thread() {
-      return this.$store.state.sourceData.threads.find((t) => t.id === this.id);
+      return findById(this.$store.state.sourceData.threads, this.id);
     },
     text() {
-      return this.$store.state.sourceData.posts.find(
-        (post) => post.id === this.thread.posts[0]
-      ).text;
+      return findById(this.$store.state.sourceData.posts, this.thread.posts[0])
+        .text;
     },
   },
 };

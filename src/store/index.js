@@ -1,5 +1,6 @@
 import { createStore } from "vuex";
 import sourceData from "@/data.json";
+import { findById } from "@/helpers/index";
 
 const store = createStore({
   state() {
@@ -10,9 +11,7 @@ const store = createStore({
   },
   getters: {
     authUser: (state) => {
-      const user = state.sourceData.users.find(
-        (user) => user.id === state.authId
-      );
+      const user = findById(state.sourceData.users, state.authId);
       if (!user) return null;
 
       return {
@@ -60,23 +59,19 @@ const store = createStore({
       state.sourceData.users[userIndex] = user;
     },
     appendPostToThread(state, { postId, threadId }) {
-      const thread = state.sourceData.threads.find(
-        (thread) => thread.id === threadId
-      );
+      const thread = findById(state.sourceData.threads, threadId);
       // prevent if a post is the first post that the there's not post array in the thread
       thread.posts = thread.posts || [];
       thread.posts.push(postId);
     },
     appendThreadToForum(state, { forumId, threadId }) {
-      const forum = state.sourceData.forums.find(
-        (forum) => forum.id === forumId
-      );
+      const forum = findById(state.sourceData.forums, forumId);
       // prevent if a thread is the first thread that the there's not thread array in the forum
       forum.threads = forum.threads || [];
       forum.threads.push(threadId);
     },
     appendThreadToUser(state, { userId, threadId }) {
-      const user = state.sourceData.users.find((user) => user.id === userId);
+      const user = findById(state.sourceData.users, userId);
       // prevent if a thread is the first thread that the there's not thread array in the user
       user.threads = user.threads || [];
       user.threads.push(threadId);
@@ -109,11 +104,11 @@ const store = createStore({
       // create a new post in this new thread
       dispatch("createPost", { text, threadId: id });
 
-      return state.sourceData.threads.find((t) => t.id === id);
+      return findById(state.sourceData.threads, id);
     },
     async updateThread({ commit, state }, { text, title, id }) {
-      const thread = state.sourceData.threads.find((t) => t.id === id);
-      const post = state.sourceData.posts.find((p) => p.id === thread.posts[0]);
+      const thread = findById(state.sourceData.threads, id);
+      const post = findById(state.sourceData.posts, thread.posts[0]);
       const newThread = { ...thread, title };
       const newPost = { ...post, text };
       commit("setThread", { thread: newThread });
