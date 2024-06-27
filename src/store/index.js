@@ -10,26 +10,31 @@ const store = createStore({
     };
   },
   getters: {
-    authUser: (state) => {
-      const user = findById(state.sourceData.users, state.authId);
-      if (!user) return null;
+    authUser: (state, getters) => {
+      return getters.user(state.authId);
+    },
+    user: (state) => {
+      return (id) => {
+        const user = findById(state.sourceData.users, id);
+        if (!user) return null;
 
-      return {
-        ...user,
-        // authUser.posts
-        get posts() {
-          return state.sourceData.posts.filter((p) => p.userId === user.id);
-        },
-        // authUser.postsCount
-        get postsCount() {
-          return this.posts.length;
-        },
-        get threads() {
-          return state.sourceData.threads.filter((t) => t.userId === user.id);
-        },
-        get threadsCount() {
-          return this.threads.length;
-        },
+        return {
+          ...user,
+          // authUser.posts
+          get posts() {
+            return state.sourceData.posts.filter((p) => p.userId === user.id);
+          },
+          // authUser.postsCount
+          get postsCount() {
+            return this.posts.length;
+          },
+          get threads() {
+            return state.sourceData.threads.filter((t) => t.userId === user.id);
+          },
+          get threadsCount() {
+            return this.threads.length;
+          },
+        };
       };
     },
     thread: (state) => {

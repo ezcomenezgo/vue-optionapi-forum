@@ -16,7 +16,7 @@
         By {{ userById(thread.userId).name }}, post at
         <AppDate :timestamp="thread.publishedAt" />
       </p>
-      <div>{{ thread.posts.length }} replies</div>
+      <div>{{ thread.repliesCount }} replies</div>
       <div class="w-10 rounded-full">
         <img :src="userById(thread.userId).avatar" alt="user" />
       </div>

@@ -13,6 +13,7 @@
       </p>
       <p>{{ post.text }}</p>
       <p>post count: {{ userById(post.userId).postsCount }}</p>
+      <p>thread count: {{ userById(post.userId).threadsCount }}</p>
       <p>
         <AppDate :timestamp="post.publishedAt" />
       </p>
@@ -22,7 +23,6 @@
 </template>
 
 <script>
-import { findById } from "@/helpers/index";
 export default {
   props: {
     posts: {
@@ -32,7 +32,7 @@ export default {
   },
   methods: {
     userById(userId) {
-      return findById(this.users, userId);
+      return this.$store.getters.user(userId);
     },
   },
   computed: {
