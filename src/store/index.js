@@ -32,6 +32,24 @@ const store = createStore({
         },
       };
     },
+    thread: (state) => {
+      return (id) => {
+        const thread = findById(state.sourceData.threads, id);
+        return {
+          ...thread,
+          // use js `get` can only computed when we access the property
+          get author() {
+            return findById(state.sourceData.users, thread.userId);
+          },
+          get repliesCount() {
+            return thread.posts.length - 1; // subtract first post since it's not a reply for the thread
+          },
+          get contributorsCount() {
+            return thread.contributors ? thread.contributors.length : 0;
+          },
+        };
+      };
+    },
   },
   mutations: {
     setPost(state, { post }) {
@@ -46,24 +64,22 @@ const store = createStore({
       );
       state.sourceData.users[userIndex] = user;
     },
-    appendPostToThread(state, { postId, threadId }) {
-      const thread = findById(state.sourceData.threads, threadId);
-      // prevent if a post is the first post that the there's not post array in the thread
-      thread.posts = thread.posts || [];
-      thread.posts.push(postId);
-    },
-    appendThreadToForum(state, { forumId, threadId }) {
-      const forum = findById(state.sourceData.forums, forumId);
-      // prevent if a thread is the first thread that the there's not thread array in the forum
-      forum.threads = forum.threads || [];
-      forum.threads.push(threadId);
-    },
-    appendThreadToUser(state, { userId, threadId }) {
-      const user = findById(state.sourceData.users, userId);
-      // prevent if a thread is the first thread that the there's not thread array in the user
-      user.threads = user.threads || [];
-      user.threads.push(threadId);
-    },
+    appendPostToThread: makeAppendChildToParentMutation({
+      parent: "threads",
+      child: "posts",
+    }),
+    appendContributorToThread: makeAppendChildToParentMutation({
+      parent: "threads",
+      child: "contributors",
+    }),
+    appendThreadToForum: makeAppendChildToParentMutation({
+      parent: "forums",
+      child: "threads",
+    }),
+    appendThreadToUser: makeAppendChildToParentMutation({
+      parent: "users",
+      child: "threads",
+    }),
   },
   actions: {
     createPost(context, post) {
@@ -72,9 +88,13 @@ const store = createStore({
       post.publishedAt = Math.floor(Date.now() / 1000);
       context.commit("setPost", { post }); // set the post
       context.commit("appendPostToThread", {
-        postId: post.id,
-        threadId: post.threadId,
+        childId: post.id,
+        parentId: post.threadId,
       }); // append post to thread
+      context.commit("appendContributorToThread", {
+        childId: context.state.authId,
+        parentId: post.threadId,
+      });
     },
     async createThread({ commit, state, dispatch }, { forumId, title, text }) {
       const id = "abcd" + Math.floor(Date.now() / 1000);
@@ -87,8 +107,8 @@ const store = createStore({
         id,
       };
       commit("setThread", { thread });
-      commit("appendThreadToUser", { userId, threadId: id });
-      commit("appendThreadToForum", { forumId, threadId: id });
+      commit("appendThreadToUser", { parentId: userId, childId: id });
+      commit("appendThreadToForum", { parentId: forumId, childId: id });
       // create a new post in this new thread
       dispatch("createPost", { text, threadId: id });
 
@@ -109,5 +129,19 @@ const store = createStore({
     },
   },
 });
+
+function makeAppendChildToParentMutation({ parent, child }) {
+  return (state, { childId, parentId }) => {
+    const resource = findById(state.sourceData[parent], parentId);
+    // prevent if a child is the first child that the there's not child array in the parent
+    resource[child] = resource[child] || [];
+
+    // prevent duplicate add same id to resource child
+    // like contributor, because users can reply many times but contributorCount should only count once
+    if (!resource[child].includes(childId)) {
+      resource[child].push(childId);
+    }
+  };
+}
 
 export default store;

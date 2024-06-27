@@ -2,6 +2,14 @@
   <div>Hello Thread</div>
   <div class="flex flex-col w-full border-opacity-50">
     <h2>{{ thread.title }}</h2>
+    <p>
+      By {{ thread.author.name }}, <AppDate :timestamp="thread.publishAt" />
+      <span>
+        {{ thread.repliesCount }} replies by
+        {{ thread.contributorsCount }}
+        contributors</span
+      >
+    </p>
     <router-link :to="{ name: 'ThreadEdit', params: { id } }"
       >Edit thread</router-link
     >
@@ -14,7 +22,7 @@
 <script>
 import PostList from "@/components/PostList.vue";
 import PostEditor from "@/components/PostEditor.vue";
-import { findById } from "@/helpers/index";
+import AppDate from "@/components/AppDate.vue";
 
 export default {
   props: {
@@ -26,6 +34,7 @@ export default {
   components: {
     PostList,
     PostEditor,
+    AppDate,
   },
   computed: {
     threads() {
@@ -35,7 +44,7 @@ export default {
       return this.$store.state.sourceData.posts;
     },
     thread() {
-      return findById(this.threads, this.id); // also available as this.$route.params.id
+      return this.$store.getters.thread(this.id);
     },
     threadPosts() {
       return this.posts.filter((p) => p.threadId === this.id);
